@@ -1,20 +1,24 @@
-import { route } from './router';
+import { route } from "./router";
+import { handler } from "./functions/login";
 
-route('/', 'home', function() {
-  this.where = 'here';
+const name = "Konrad";
+
+route("/", "home", function () {
+  this.title = "Home";
+  this.where = ` jesteś w home`;
 });
 
-route('/ex1', 'example1', function() {
-  this.title = 'Example 1';
+route("/success", "success", function () {
+  this.title = "Zalogowano poprawnie";
 });
 
-route('/ex2', 'example2', function() {
-  this.title = 'Example 2';
+route("/ex2", "example2", function () {
+  this.title = "przykład drugi";
   this.counter = 0;
-  this.$on('.my-button', 'click', () => {
+  this.$on(".my-button", "click", () => {
     this.counter += 1;
     this.$refresh();
   });
 });
 
-route('*', '404', function () {});
+route("*", "404", function () {});
