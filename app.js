@@ -1,5 +1,4 @@
 import { route } from "./router";
-import { handler } from "./functions/login";
 
 const name = "Konrad";
 
@@ -21,4 +20,4 @@ route("/ex2", "example2", function () {
   });
 });
 
-route("*", "404", function () {});
+route("*", "error404", function () {});
