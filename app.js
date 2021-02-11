@@ -1,23 +1,43 @@
 import { route } from "./router";
+import axios from "axios";
 
-const name = "Konrad";
+let acces = false;
+let returned = false;
 
 route("/", "home", function () {
-  this.title = "Home";
-  this.where = ` jesteś w home`;
+  if (returned) {
+    this.message = "Dostęp zabroniony, podaj login i hasło aby uzyskać dostęp";
+  } else {
+    this.message = "Podaj login i hasło";
+  }
+  this.$on("#loginForm", "submit", (e) => {
+    e.preventDefault();
+
+    const login = {
+      username: document.getElementById("user").value,
+      password: document.getElementById("password").value,
+    };
+
+    axios
+      .post("https://zwzt-zadanie.netlify.app/api/login", login)
+      .then((response) => {
+        acces = true;
+        window.location.href = "#/success";
+      })
+      .catch((error) => {
+        this.message = "Błędne dane logowania";
+        acces = false;
+        this.$refresh();
+      });
+  });
 });
 
 route("/success", "success", function () {
-  this.title = "Zalogowano poprawnie";
-});
-
-route("/ex2", "example2", function () {
-  this.title = "przykład drugi";
-  this.counter = 0;
-  this.$on(".my-button", "click", () => {
-    this.counter += 1;
-    this.$refresh();
-  });
+  if (!acces) {
+    returned = true;
+    window.location.href = "#";
+  }
+  this.message = "Zalogowano poprawnie";
 });
 
 route("*", "error404", function () {});
