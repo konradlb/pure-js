@@ -1,5 +1,6 @@
 # uruchomienie
 
+`npm install`
 `npm run dev`
 
 # zadanie
